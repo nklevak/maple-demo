@@ -1,0 +1,3 @@
+# Plain (unencrypted) source — never publish this
+src/
+.DS_Store
