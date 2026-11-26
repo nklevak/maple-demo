@@ -10,6 +10,7 @@ Usage:
     pip3 install cryptography
     python3 encrypt.py                 # prompts for the password
     python3 encrypt.py "my-password"   # or pass it directly
+    python3 encrypt.py "my-password" src/maple-v2.html v2/index.html   # the v2 draft
 """
 import base64, getpass, json, os, sys
 from pathlib import Path
@@ -19,6 +20,10 @@ from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
 ROOT = Path(__file__).parent
 SRC, OUT, TEMPLATE = ROOT / "src" / "maple.html", ROOT / "index.html", ROOT / "gate_template.html"
+# Optional: python3 encrypt.py PASSWORD src/maple-v2.html v2/index.html
+if len(sys.argv) > 3:
+    SRC, OUT = ROOT / sys.argv[2], ROOT / sys.argv[3]
+    OUT.parent.mkdir(parents=True, exist_ok=True)
 ITERATIONS = 600_000
 
 password = sys.argv[1] if len(sys.argv) > 1 else getpass.getpass("Password: ")
